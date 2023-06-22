@@ -13,6 +13,7 @@ let sunset = document.getElementById('sunset');
 let cityName = document.getElementById('cityName')
 
 
+
 const rowIndia = document.getElementById('row-india');
 const rowAmerica = document.getElementById('row-america');
 const rowLucknow = document.getElementById('row-lucknow');
@@ -21,6 +22,7 @@ const rowBhadohi = document.getElementById('row-bhadohi');
 const rowVaranasi = document.getElementById('row-varanasi');
 const rowAgra = document.getElementById('row-agra');
 
+var data;
 
 
 var options = {
@@ -36,21 +38,22 @@ var options = {
 async function getRapidApiResponse(city) {
 	try {
 		const response = await fetch(`https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city=${city}`, options)
-		console.log(response + city)
-		const data = await response.json();
+		if (response.ok) {
+			const data = await response.json();
+			data.city_name = city;
+			return data;
+		}
+		alert("Please Enter Correct City Name");
+		return data;
+	} catch (error) {
 		return data;
 	}
-	catch (error) {
-		console.log(error)
-		return {};
-	}
-
 }
 
 async function getAndSetCityWather(element, cityName) {
 	const data = await getRapidApiResponse(cityName);
 	element.innerHTML = `
-	<td>${cityName}</td>
+	<td>${data.city_name}</td>
 	<td>${data.cloud_pct}</td>
 	<td>${data.temp}</td>
 	<td>${data.feels_like}</td>
@@ -65,11 +68,13 @@ async function getAndSetCityWather(element, cityName) {
 }
 
 
+
 // UttarPradesh
 
 const getWeather = async (city) => {
 	let bhadohiData = await getRapidApiResponse(city);
-	cityName.innerHTML = city;
+	data = bhadohiData;
+	cityName.innerHTML = bhadohiData.city_name;
 	temp.innerHTML = bhadohiData.temp;
 	temp2.innerHTML = bhadohiData.temp;
 	feels_like.innerHTML = bhadohiData.feels_like
@@ -88,6 +93,7 @@ getWeather("Bhadohi");
 
 
 
+
 submit.addEventListener("click", (event) => {
 	event.preventDefault();
 	getWeather(city.value)
@@ -100,6 +106,37 @@ getAndSetCityWather(rowAmerica, "America");
 getAndSetCityWather(rowDelhi, "Delhi");
 getAndSetCityWather(rowVaranasi, "varanasi");
 getAndSetCityWather(rowAgra, "Agra");
+
+
+
+// Background color for the switch button
+var darkModeSwitch = document.getElementById('darkModeSwitch');
+document.addEventListener('DOMContentLoaded', function () {
+	darkModeSwitch.addEventListener('change', function () {
+		if (darkModeSwitch.checked) {
+			enableDarkMode();
+		} else {
+			disableDarkMode();
+		}
+	});
+});
+
+var navBar = document.getElementById('navBar-1');
+function enableDarkMode() {
+	document.body.style.background = '#042743';
+	navBar.style.background = 'red';
+	
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
