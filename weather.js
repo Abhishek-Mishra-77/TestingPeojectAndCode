@@ -121,13 +121,17 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 
-var navBar = document.getElementById('navBar-1');
+
+
 function enableDarkMode() {
 	document.body.style.background = '#042743';
-	navBar.style.background = 'red';
-	
+
+
 }
 
+function disableDarkMode() {
+	document.body.style.background = 'grey'
+}
 
 
 
